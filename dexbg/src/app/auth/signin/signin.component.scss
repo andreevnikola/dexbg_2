@@ -1,0 +1,176 @@
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: calc(100vh - 7rem);
+    padding: 1rem 0;
+  }
+  
+  .holder{
+    width: 100%;
+    padding: 15px;
+    max-width: 1100px;
+    margin-left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  button{
+    padding: 10px;
+    color: black !important;
+    font-weight: bolder;
+    background-color: rgb(255, 255, 255);
+  }
+  
+  article {
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  h1 {
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0;
+    text-align: center;
+    font-size: 35px;
+  }
+  
+  article div {
+    padding: 1rem;
+  }
+  
+  .error{
+    margin: 0;
+    padding: 0 !important;
+    padding-left: 2px !important;
+    color: red;
+    font-size: 17px;
+    margin-right: 5px;
+  }
+  
+  .interactionsAndErrorsArea{
+    display: flex;
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-top: -20px !important;
+    margin-bottom: 11px !important;
+  }
+  
+  .showHidePassword{
+    color: rgb(136, 136, 251);
+    font-weight: bold;
+    font-size: 15px;  
+    padding: 0;
+    padding-left: 2px;
+    margin: 0;
+    cursor: pointer;
+  }
+  
+  .grid{
+    grid-template-columns: repeat(auto-fit,minmax(0%,1fr));
+  }
+  
+  @media (min-width: 576px) {
+    body > main {
+      padding: 1.25rem 0;
+    }
+  
+    article div {
+      padding: 1.25rem;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    body > main {
+      padding: 1.5rem 0;
+    }
+  
+    article div {
+      padding: 1.5rem;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    body > main {
+      padding: 1.75rem 0;
+    }
+  
+    article div {
+      padding: 1.75rem;
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    body > main {
+      padding: 2rem 0;
+    }
+  
+    article div {
+      padding: 2rem;
+    }
+  }
+  
+  .imageHolder {
+    display: none;
+    background-color: #374956;
+    background-image: url("/assets/images/welcome_back.png");
+    background-position: center;
+    background-size: cover;
+    transition: 0.5s;
+  }
+  
+  .accNotFound{
+    font-size: 15x;
+    line-height: 22px;
+    margin-top: 5px;
+  }
+  
+  .fullWidth{
+    width: 220% !important;
+    display: block !important;
+    margin-left: calc(-100% + -20px);
+    z-index: 1000;
+    opacity: 100%;
+    position: relative;
+  }
+  
+  @keyframes showLoadingScreen{
+    from{
+      bottom: -100%;
+    }
+    to{
+      bottom: 0;
+    }
+  }
+  
+  app-loading{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  @media (max-width: 1027px) {
+    .fullWidth{
+      animation-name: showLoadingScreen;
+      animation-duration: 0.5s;
+    }
+    .stretch{
+      width: 200%;
+    }
+  }
+  
+  @media (min-width: 1027px) {
+    .grid > div:nth-of-type(2) {
+      display: block;
+    }
+    
+  }
+  
+  @media (max-width: 930px) {
+    .interactionsAndErrorsArea{
+      flex-direction: column;
+      line-height: 15px;
+      margin-top: -15px !important;
+    }
+  }
+  

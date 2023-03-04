@@ -1,0 +1,76 @@
+<header>
+    <nav class="container-fluid" style="z-index: 10;">
+        <ul>
+            <li class="imageHolder">
+                <a [routerLink]="authService.isSignedIn ? '/explore' : '/'" class="">
+                    <img src="assets/images/logo.png" alt="DexBG icon">
+                </a>
+            </li>
+        </ul>
+        <ul>
+            <h1>DexBG</h1>
+        </ul>
+        <ul>
+            <div class="links">
+                <li><a routerLink="/aboutus">За нас</a></li>
+                <li><a routerLink="/order"><strong>Поръчай</strong></a></li>
+                <li><a routerLink="/buy">Купи</a></li>
+                <li><a routerLink="/help">Помощ</a></li>
+            </div>
+            <ng-container *ngIf="!authService.isSignedIn">
+                <li class="buttons"><button (click)="router.navigate(['/auth/signin'])">Влез</button></li>
+                <li class="buttons"><button (click)="router.navigate(['/auth/join'])">Регистрирай се</button></li>
+            </ng-container>
+            <div class="p-0 m-0 top-1" (click)="showProfileSettings()" [tabIndex]="0" (focusout)="profileDataShown = false" *ngIf="authService.isSignedIn">
+                <button class="profilePicture z-50" [ngStyle]="{'background-image': 'url(' + authService.profilePicture + ')'}">
+                    .
+                </button>
+                <div #accSettings class="absolute top-[77px] right-5 w-full bg-white h-fit max-w-xs" [@profile] *ngIf="profileDataShown">
+                    <div class="w-0 h-0 absolute -mt-5 right-[3px] -z-10
+                        border-l-[15px] border-l-transparent
+                        border-b-[20px] border-b-[#1095C1]
+                        border-r-[15px] border-r-transparent
+                    "></div>
+                    <a href="#" (click)="$event.preventDefault()" role="button" class="w-full mb-2 rounded-none rounded-t-lg">Настройки</a>
+                    <a href="#" (click)="$event.preventDefault()" role="button" class="w-full mb-2 rounded-none">История</a>
+                    <a href="#" (click)="$event.preventDefault()" role="button" class="w-full mb-2 rounded-none bg-red-600 border-none hover:bg-red-700">Активирайте акаунт!</a>
+                    <a href="#" (click)="$event.preventDefault()" role="button" class="w-full rounded-none rounded-b-lg border-none bg-white text-red-600 font-bold">Излез от акаунт</a>
+                </div>
+            </div>
+        </ul>
+        <ul>
+            <li class="flex w-fit gap-3"><button class="secondary outline z-[100000] bars" [ngClass]="{'rotated': mobileMenuShown}" (click)="showHideMenuHandler()">
+                <fa-icon [icon]="bars"></fa-icon>
+            </button>
+            <div class="p-0 m-0 top-1" (click)="showProfileSettings()" [tabIndex]="0" (focusout)="profileDataShown = false" *ngIf="authService.isSignedIn">
+                <button class="profilePicture z-50" [ngStyle]="{'background-image': 'url(' + authService.profilePicture + ')'}">
+                    .
+                </button>
+                <div #accSettings class="absolute top-[77px] right-5 w-full bg-white h-fit max-w-xs" [@profile] *ngIf="profileDataShown && !mobileMenuShown">
+                    <div class="w-0 h-0 absolute -mt-5 right-[3px] -z-10
+                        border-l-[15px] border-l-transparent
+                        border-b-[20px] border-b-[#1095C1]
+                        border-r-[15px] border-r-transparent
+                    "></div>
+                    <a href="#" (click)="$event.preventDefault()" role="button" class="w-full mb-2 rounded-none rounded-t-lg">Настройки</a>
+                    <a href="#" (click)="$event.preventDefault()" role="button" class="w-full mb-2 rounded-none">История</a>
+                    <a href="#" (click)="$event.preventDefault()" role="button" class="w-full mb-2 rounded-none bg-red-600 border-none hover:bg-red-700">Активирайте акаунт!</a>
+                    <a href="#" (click)="$event.preventDefault()" role="button" class="w-full rounded-none rounded-b-lg border-none bg-white text-red-600 font-bold">Излез от акаунт</a>
+                </div>
+            </div>
+            </li>
+        </ul>
+    </nav>
+    <aside *ngIf="mobileMenuShown" [@menu]>
+        <nav>
+          <ul>
+            <li class="buttons"><button (click)="mobileMenuShown = false; router.navigate(['/auth/signin'])">Влез</button></li>
+            <li class="buttons"><button (click)="mobileMenuShown = false; router.navigate(['/auth/join'])">Регистрирай се</button></li>
+            <li><a routerLink="/order"><strong>Поръчай</strong></a></li>
+            <li><a routerLink="/aboutus">За нас</a></li>
+            <li><a routerLink="/help">Помощ</a></li>
+            <li><a routerLink="/buy">Купи</a></li>
+          </ul>
+        </nav>
+    </aside>
+</header>

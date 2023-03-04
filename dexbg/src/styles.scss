@@ -3,3 +3,10 @@
 @tailwind utilities;
 
 @import url('pico.min.css');
+
+body{
+    max-width: 1800px;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+}

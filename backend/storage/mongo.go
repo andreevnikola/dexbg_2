@@ -10,9 +10,9 @@ import (
 )
 
 type MongoStorage struct {
-	questureDB *mongo.Database
-	ctx        context.Context
-	client     *mongo.Client
+	dexDB  *mongo.Database
+	ctx    context.Context
+	client *mongo.Client
 }
 
 const mongoURI string = "mongodb://localhost:27017"
@@ -32,11 +32,11 @@ func (s *MongoStorage) ConnectMongoDB() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	s.questureDB = client.Database("questure")
+	s.dexDB = client.Database("dex_2")
 }
 
 func (s *MongoStorage) InsertOne(data interface{}, collectionString string) (*mongo.InsertOneResult, error) {
-	collection := s.questureDB.Collection(collectionString)
+	collection := s.dexDB.Collection(collectionString)
 	res, err := collection.InsertOne(s.ctx, data)
 	if err != nil {
 		return nil, err
@@ -45,7 +45,7 @@ func (s *MongoStorage) InsertOne(data interface{}, collectionString string) (*mo
 }
 
 func (s *MongoStorage) InsertMany(data []interface{}, collectionString string) (*mongo.InsertManyResult, error) {
-	collection := s.questureDB.Collection(collectionString)
+	collection := s.dexDB.Collection(collectionString)
 	res, err := collection.InsertMany(s.ctx, []interface{}{data})
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (s *MongoStorage) InsertMany(data []interface{}, collectionString string) (
 }
 
 func (s *MongoStorage) Find(search *bson.D, collectionString string) ([]map[string]interface{}, error) {
-	collection := s.questureDB.Collection(collectionString)
+	collection := s.dexDB.Collection(collectionString)
 	cursor, err := collection.Find(s.ctx, search)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
@@ -70,7 +70,7 @@ func (s *MongoStorage) Find(search *bson.D, collectionString string) ([]map[stri
 }
 
 func (s *MongoStorage) FindOne(search *bson.M, collectionString string) (map[string]interface{}, error) {
-	collection := s.questureDB.Collection(collectionString)
+	collection := s.dexDB.Collection(collectionString)
 	var data bson.M
 	if err := collection.FindOne(s.ctx, search).Decode(&data); err != nil {
 		if err == mongo.ErrNoDocuments {
@@ -83,7 +83,7 @@ func (s *MongoStorage) FindOne(search *bson.M, collectionString string) (map[str
 }
 
 func (s *MongoStorage) Update(search *bson.M, update bson.M, collectionString string) (*mongo.UpdateResult, error) {
-	collection := s.questureDB.Collection(collectionString)
+	collection := s.dexDB.Collection(collectionString)
 	updated, err := collection.UpdateOne(s.ctx, search, update)
 	if err != nil {
 		return nil, err

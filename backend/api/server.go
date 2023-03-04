@@ -4,9 +4,13 @@ import (
 	"dexbg/common"
 	"dexbg/storage"
 	"dexbg/types"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"reflect"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -101,7 +105,41 @@ func (s *Server) handleAddNewUser(c *gin.Context) {
 		readyStateError <- 0
 	}()
 
-	for i := 0; i < 3; i++ {
+	var gender int8 = 0
+	go func() {
+		type Response struct {
+			Count       int     `json: "count"`
+			Gender      string  `json: "gender"`
+			Name        string  `json: "name"`
+			Probability float32 `json: "probability"`
+		}
+		resp, err := http.Get("https://api.genderize.io/?name[]=" + strings.Split(newUser.Fullname, " ")[0] + "&name[]=" + strings.Split(newUser.Fullname, " ")[1])
+		if err != nil {
+			readyStateError <- 0
+			return
+		}
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			readyStateError <- 0
+			return
+		}
+		var result []Response
+		if err := json.Unmarshal(body, &result); err != nil { // Parse []byte to go struct pointer
+			readyStateError <- 0
+			return
+		}
+		// fmt.Println("BRUH", result)
+		if result[0].Gender == result[1].Gender && result[0].Probability+result[1].Probability > 1.25 {
+			if result[0].Gender == "female" {
+				gender = 2
+			} else {
+				gender = 1
+			}
+		}
+		readyStateError <- 0
+	}()
+
+	for i := 0; i < 4; i++ {
 		var stateError int = <-readyStateError
 		if stateError != 0 {
 			c.JSON(stateError, nil)
@@ -117,6 +155,7 @@ func (s *Server) handleAddNewUser(c *gin.Context) {
 		{Key: "phone", Value: newUser.Phone},
 		{Key: "fullname", Value: newUser.Fullname},
 		{Key: "password", Value: hashedPas},
+		{Key: "gender", Value: gender},
 		{Key: "keys", Value: []types.Key{key}},
 	}
 	res, err := s.store.InsertOne(data, "users")
@@ -126,8 +165,9 @@ func (s *Server) handleAddNewUser(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"id":  res.InsertedID,
-		"key": key.Key,
+		"id":     res.InsertedID,
+		"key":    key.Key,
+		"gender": gender,
 	})
 
 }
@@ -212,6 +252,7 @@ func (s *Server) handleLoginToAccount(c *gin.Context) {
 		"phone":    user["phone"],
 		"username": user["username"],
 		"fullname": user["fullname"],
+		"gender":   user["gender"],
 	})
 }
 
@@ -255,6 +296,7 @@ func (s *Server) handleAuthenticate(c *gin.Context) {
 				"phone":    user["phone"],
 				"username": user["username"],
 				"fullname": user["fullname"],
+				"gender":   user["gender"],
 			})
 			return
 		}

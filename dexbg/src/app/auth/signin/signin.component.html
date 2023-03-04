@@ -1,0 +1,37 @@
+<div class="holder">
+    <main class="container">
+      <article class="grid">
+        <div [ngClass]="{'stretch': loading}">
+            <h1><strong>Влезте в акаунт</strong></h1>
+          <form #form="ngForm" (ngSubmit)="handleSigninUser(loginInp.value, passwordInp.value)">
+            <input type="text" name="username" placeholder="Потребителско име или E-Mail" required minlength="5" ngModel #loginInp="ngModel" (change)="error = false">
+            <div class="interactionsAndErrorsArea">
+              <div *ngIf="loginInp.touched" class="error">
+                <p class="error" *ngIf="loginInp.errors?.['required']">Полето е задължително.</p>
+                <p class="error" *ngIf="loginInp.errors?.['minlength']">Полето трябва да е поне 5 знака.</p>
+              </div>
+            </div>
+            <input [type]="passwordIsShwon ? 'text' : 'password'" name="password" placeholder="Парола" required minlength="5" ngModel #passwordInp="ngModel" (change)="error = false">
+            <div class="interactionsAndErrorsArea">
+              <div *ngIf="passwordInp.touched" class="error">
+                <p class="error" *ngIf="passwordInp.errors?.['required']">Паролата е задължителна</p>
+                <p class="error" *ngIf="passwordInp.errors?.['minlength']">Паролата трябва да е поне 5 знака.</p>
+              </div>
+              <p class="showHidePassword" (click)="passwordIsShwon = !passwordIsShwon">{{passwordIsShwon ? "Скрий" : "Покажи"}} парола</p>
+            </div>
+            <!-- <fieldset>
+              <label for="remember">
+                <input type="checkbox" role="switch" id="remember" name="remember">
+                Remember me
+              </label>
+            </fieldset> -->
+            <button [disabled]="form.invalid" type="submit" class="contrast">Login</button>
+            <div class="error accNotFound" *ngIf="error"><strong>Акаунтът Ви не е намерен. {{isEmail(loginInp.value) ? "E-Mail" : "Потребителското име"}} не съвпада с паролата. <fa-icon [icon]="nottaBenneIcon"></fa-icon></strong></div>
+          </form>
+        </div>
+        <div class="imageHolder" [ngClass]="{'fullWidth': loading}">
+          <app-loading *ngIf="loading"></app-loading>
+        </div>
+      </article>
+  </main>
+  </div> 

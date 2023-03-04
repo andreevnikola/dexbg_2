@@ -1,0 +1,72 @@
+<div class="holder">
+    <main class="container">
+      <article>
+            <h1><strong>Присъедини се в <span>Dex</span></strong></h1>
+          <form #form="ngForm" (ngSubmit)="handleSigninUser(usernameInp.value, firstnameInp.value, lastnameInp.value, mailInp.value, phoneInp.value,  passwordInp.value)">
+            <input type="text" name="username" placeholder="Потребителско име" required minlength="5" (change)="error === 422 ? error = false : null" maxlength="19" ngModel #usernameInp="ngModel" [attr.aria-invalid]="error == 422 ? 'true' : usernameInp.touched ? !!usernameInp.errors || false  ? 'true' : 'false' : undefined">
+            <div class="interactionsAndErrorsArea">
+              <div *ngIf="usernameInp.touched" class="error">
+                <p class="error" *ngIf="usernameInp.errors?.['required']">Потребителското име е задължително</p>
+                <p class="error" *ngIf="usernameInp.errors?.['minlength']">Потребителското име трябва да е поне 5 знака.</p>
+                <p class="error" *ngIf="usernameInp.errors?.['maxlength']">Потребителското име трябва да е под 20 знака.</p>
+                <p class="error" *ngIf="error === 422">Потребителското име е заето! Опитайте с друго!</p>
+              </div>
+            </div>
+            <div class="fullnameInputs">
+              <input type="text" name="firstname" placeholder="Първо име" required minlength="4" maxlength="20" ngModel #firstnameInp="ngModel" [attr.aria-invalid]="firstnameInp.touched ? !!firstnameInp.errors || false  ? 'true' : 'false' : undefined">
+              <input type="text" name="lastname" placeholder="Фамилия" required minlength="4" maxlength="20" ngModel #lastnameInp="ngModel" [attr.aria-invalid]="lastnameInp.touched ? !!lastnameInp.errors || false  ? 'true' : 'false' : undefined">
+            </div>
+            <div class="interactionsAndErrorsArea">
+              <div *ngIf="firstnameInp.touched" class="error">
+                <p class="error" *ngIf="firstnameInp.errors?.['required']">Първото име е задължително</p>
+                <p class="error" *ngIf="firstnameInp.errors?.['minlength']">Първото име трябва да е поне 4 знака.</p>
+                <p class="error" *ngIf="firstnameInp.errors?.['maxlength']">Първото име трябва да е под 20 знака.</p>
+              </div>
+              <div *ngIf="lastnameInp.touched && (!firstnameInp.errors || (!firstnameInp.touched && firstnameInp.errors && firstnameInp.errors?.['required']))" class="error">
+                <p class="error" *ngIf="lastnameInp.errors?.['required']">Фамилията е задължителна</p>
+                <p class="error" *ngIf="lastnameInp.errors?.['minlength']">Фамилията трябва да е поне 4 знака.</p>
+                <p class="error" *ngIf="lastnameInp.errors?.['maxlength']">Фамилията трябва да е под 20 знака.</p>
+              </div>
+            </div>
+            <input type="email" name="mail" placeholder="E-Mail" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" (change)="error === 409 ? error = false : null" required minlength="5" maxlength="40" ngModel #mailInp="ngModel" [attr.aria-invalid]="error === 409 ? 'true' : mailInp.touched ? !!mailInp.errors || false  ? 'true' : 'false' : undefined">
+            <div class="interactionsAndErrorsArea">
+              <div *ngIf="mailInp.touched" class="error">
+                <p class="error" *ngIf="mailInp.errors?.['required']">E-Mail е задължителен.</p>
+                <p class="error" *ngIf="mailInp.errors?.['minlength']">E-Mail трябва да е поне 5 знака.</p>
+                <p class="error" *ngIf="mailInp.errors?.['maxlength']">E-Mail трябва да е под 40 знака.</p>
+                <p class="error" *ngIf="!mailInp.errors?.['required'] && !mailInp.errors?.['minlength'] && mailInp.errors?.['pattern']">Моля въведете валиден E-MAIL.</p>
+                <p class="error" *ngIf="error === 409">E-Mail е зает! Опитайте с друг!</p>
+              </div>
+            </div>
+            <div class="phoneNumberChooser">
+              <select [(value)]="phoneStarting">
+                <option value="+359" selected>+359</option>
+                <option value="+380">+380</option>
+                <option value="+359">+44</option>
+                <option value="+359">+91</option>
+              </select>
+              <input type="text" name="phone" placeholder="Телефонен номер" required maxlength="9" minlength="9" ngModel #phoneInp="ngModel" [attr.aria-invalid]="phoneInp.touched ? !!phoneInp.errors || false  ? 'true' : 'false' : undefined">
+            </div>
+            <div class="interactionsAndErrorsArea relative top-4">
+              <div *ngIf="phoneInp.touched" class="error">
+                <p class="error" *ngIf="phoneInp.errors?.['required']">Телефонния номер е задължителен</p>
+                <p class="error" *ngIf="phoneInp.errors?.['minlength']">Моля въведете валиден телефонен номер.</p>
+              </div>
+            </div>
+            <input class="mt-4" [type]="passwordIsShwon ? 'text' : 'password'" name="password" placeholder="Парола" required minlength="5" maxlength="50" ngModel #passwordInp="ngModel" [attr.aria-invalid]="passwordInp.touched ? !!passwordInp.errors || false  ? 'true' : 'false' : undefined">
+            <div class="interactionsAndErrorsArea">
+              <div *ngIf="passwordInp.touched" class="error">
+                <p class="error" *ngIf="passwordInp.errors?.['required']">Паролата е задължителна.</p>
+                <p class="error" *ngIf="passwordInp.errors?.['minlength']">Паролата трябва да е поне 5 знака.</p>
+                <p class="error" *ngIf="passwordInp.errors?.['maxlength']">Паролата трябва да е под 50 знака.</p>
+              </div>
+              <p class="showHidePassword" (click)="passwordIsShwon = !passwordIsShwon">{{passwordIsShwon ? "Скрий" : "Покажи"}} парола</p>
+            </div>
+            <button [disabled]="form.invalid" type="submit" class="contrast">Регистрирай се!</button>
+          </form>
+          <div id="loading" *ngIf="loading">
+            <app-loading></app-loading>
+          </div>
+      </article>
+  </main>
+  </div> 

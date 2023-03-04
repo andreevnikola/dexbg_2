@@ -1,0 +1,137 @@
+header {
+    width: 100%;
+    position: sticky;
+    top: 0px;
+    background-color: #11191f8f;
+    backdrop-filter: saturate(160%) blur(10px);
+    z-index: 1000000000000000000000;
+}
+
+ul:nth-child(2){
+    display: none;
+}
+
+ul:nth-child(3){
+    flex-grow: 1;
+    justify-content: end;
+
+    .links{
+        margin-right: 20px;
+    }
+}
+
+.buttons{
+    margin-left: -10px;
+
+    button{
+        padding: 4px;
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+}
+
+.bars{
+    align-self: start;  
+    width: 45px;
+    height: 45px;
+    padding: 0px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 5px;
+}
+
+ul:nth-child(4){
+    display: none;
+    button{
+        padding: 2px;
+        padding-left: 10px;
+        padding-right: 10px;
+        transition: 0.25s;
+        fa-icon{
+            font-size: 30px;
+        }
+    }
+    li{
+        align-items: flex-start;
+    }
+}
+
+.profilePicture{
+    width: 45px;
+    height: 45px;
+    border: 1px solid #e9ecee;
+    border-radius: 50%;
+    color: transparent;
+    position: relative;
+    background-repeat: no-repeat;
+    background-attachment: fixed;  
+    background-size: cover;
+    background-color: transparent;
+    align-self: start;  
+}
+
+.rotated{
+    transform: rotate(-90deg);
+}
+
+.imageHolder{
+    padding: 0;
+    img{
+        height: 50px;
+        margin-left: 5px;
+    }
+}
+
+aside{
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+aside > nav > ul{
+    text-align: center;
+    background: #273642f5;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    font-size: large;
+
+    .buttons{
+        transform: translate(-50%, 0);
+        margin-left: 50%;
+        padding-left: 25px;
+        padding-right: 25px;
+        width: 100%;
+        button{
+            padding-left: 20px;
+            padding-right: 20px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        button:nth-child(1){
+            margin-bottom: -10px;
+        }
+    }
+}
+
+@media screen and (max-width: 660px){
+    ul:nth-child(3){
+        display: none;
+    }
+    ul:nth-child(4){
+        display: block;
+    }
+    ul:nth-child(2){
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        margin-top: -5px;
+        font-weight: bold;
+    }
+}
+
+@media screen and (min-width: 660px){
+    aside{
+        display: none;
+    }
+}
